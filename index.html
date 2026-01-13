@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEC - Rhythm healing | Professional Mental Wellness Service</title>
+    <meta name="description" content="JEC is the world's first mental wellness platform focusing on sports social, peak moments, and career rhythm healing, crafted by innovative surgeon Dr. Jack over 12 years">
+    <meta name="keywords" content="rhythm healing,sports social,mental wellness,physiological-neuro-rhythm,emotional healing,Dr Jack,voice companion">
+    <meta property="og:title" content="JEC - Rhythm healing">
+    <meta property="og:description" content="Crafted by innovative surgeon Dr. Jack over 12 years, achieve good mood, better sleep, career rhythm healing, and inspiration">
+    <meta name="twitter:title" content="JEC - Rhythm healing">
+    <meta name="twitter:description" content="World's first sports social rhythm healing platform, crafted by Dr. Jack over 12 years">
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/react@18/umd/react.production.min.js"></script>
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/lucide@0.513.0/lucide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
+    <link href="styles.css" rel="stylesheet">
+    <script>
+        const ChartJS = window.Chart;
+        
+        // Password protection system
+        const MEMBER_PASSWORD = '15618112185'; // Change this to your desired password
+        
+        function checkPassword() {
+            const input = document.getElementById('memberPassword');
+            const error = document.getElementById('passwordError');
+            const overlay = document.getElementById('passwordOverlay');
+            const root = document.getElementById('root');
+            
+            if (input.value === MEMBER_PASSWORD) {
+                localStorage.setItem('jecMemberAuth', 'true');
+                overlay.classList.add('hidden');
+                root.classList.remove('hidden');
+                error.classList.add('hidden');
+            } else {
+                error.classList.remove('hidden');
+                input.value = '';
+                input.focus();
+            }
+        }
+        
+        // Check if already authenticated
+        window.addEventListener('DOMContentLoaded', function() {
+            const isAuthenticated = localStorage.getItem('jecMemberAuth') === 'true';
+            if (isAuthenticated) {
+                document.getElementById('passwordOverlay').classList.add('hidden');
+                document.getElementById('root').classList.remove('hidden');
+            }
+        });
+        
+        // Allow Enter key to submit
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('memberPassword');
+            if (passwordInput) {
+                passwordInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        checkPassword();
+                    }
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+    <!-- Password Login Overlay -->
+    <div id="passwordOverlay" class="fixed inset-0 bg-black bg-opacity-90 z-[9999] flex items-center justify-center">
+        <div class="max-w-md w-full mx-4">
+            <div class="bg-white rounded-3xl p-8 text-center">
+                <h1 class="text-4xl font-bold gradient-text mb-4">Rhythm healing</h1>
+                <p class="text-gray-600 mb-8">Member Access Required</p>
+                <div class="space-y-4">
+                    <input 
+                        type="password" 
+                        id="memberPassword" 
+                        placeholder="Enter member password"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-center text-lg"
+                    />
+                    <button 
+                        onclick="checkPassword()"
+                        class="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors">
+                        Enter
+                    </button>
+                    <p id="passwordError" class="text-red-500 text-sm hidden">Incorrect password, please try again</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="root" class="hidden"></div>
+    <script type="text/babel" src="utils/authService.js"></script>
+    <script type="text/babel" src="utils/voiceService.js"></script>
+    <script type="text/babel" src="utils/orderService.js"></script>
+    <script type="text/babel" src="utils/paymentService.js"></script>
+    <script type="text/babel" src="utils/domainHandler.js"></script>
+    <script type="text/babel" src="utils/audioService.js"></script>
+    <script type="text/babel" src="utils/elevenLabsService.js"></script>
+    <script type="text/babel" src="components/AudioPlayer.js"></script>
+    <script type="text/babel" src="components/Header.js"></script>
+    <script type="text/babel" src="components/HeroSection.js"></script>
+    <script type="text/babel" src="components/BenefitsList.js"></script>
+    <script type="text/babel" src="components/PlatformInfo.js"></script>
+    <script type="text/babel" src="components/EmailSubscriptionSection.js"></script>
+    <script type="text/babel" src="components/LoginModal.js"></script>
+    <script type="text/babel" src="components/ForgotPasswordModal.js"></script>
+    <script type="text/babel" src="components/RegisterModal.js"></script>
+    <script type="text/babel" src="components/UserDashboard.js"></script>
+    <script type="text/babel" src="components/VoiceAssistant.js"></script>
+    <script type="text/babel" src="components/OrderModal.js"></script>
+    <script type="text/babel" src="components/OrderHistory.js"></script>
+    <script type="text/babel" src="components/PaymentModal.js"></script>
+    <script type="text/babel" src="components/RitualMeditationPage.js"></script>
+    <script type="text/babel" src="components/EmotionTrackingPage.js"></script>
+    <script type="text/babel" src="components/FlowJourneyPage.js"></script>
+    <script type="text/babel" src="components/SleepWellPage.js"></script>
+    <script type="text/babel" src="components/CareerRhythmPage.js"></script>
+    <script type="text/babel" src="components/LearnMorePage.js"></script>
+    <script type="text/babel" src="components/ServicesPage.js"></script>
+    <script type="text/babel" src="components/SportsSocialPage.js"></script>
+    <script type="text/babel" src="components/HighlightMomentsPage.js"></script>
+    <script type="text/babel" src="components/CareerFlowPage.js"></script>
+    <script type="text/babel" src="components/MoodBoostPage.js"></script>
+    <script type="text/babel" src="components/InspirationPage.js"></script>
+    <script type="text/babel" src="components/RetreatExperiencePage.js"></script>
+    <script type="text/babel" src="components/AchievementModal.js"></script>
+    <script type="text/babel" src="components/CommunityModal.js"></script>
+    <script type="text/babel" src="components/DataExportModal.js"></script>
+    <script type="text/babel" src="components/CreditCardPaymentModal.js"></script>
+    <script type="text/babel" src="components/NutritionalRhythmPage.js"></script>
+    <script type="text/babel" src="utils/achievementService.js"></script>
+    <script type="text/babel" src="utils/communityService.js"></script>
+    <script type="text/babel" src="utils/exportService.js"></script>
+    <script type="text/babel" src="app.js"></script>
+    
+    <!-- EMR Rhythm Panel Modal -->
+    <style>
+      :root {
+        --emr-bg: #0b0f14;
+        --emr-surface: #0f1720;
+        --emr-text: #eaf2ff;
+        --emr-muted: #9fb2c7;
+        --emr-accent: #7ce8c5;
+        --emr-accent-2: #94b8ff;
+        --emr-border: rgba(255,255,255,.08);
+        --emr-card: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+        --emr-shadow: 0 8px 40px rgba(0,0,0,.45);
+        --emr-radius: 14px;
+      }
+      @media (prefers-color-scheme: light) {
+        :root {
+          --emr-bg: #f6f8fb;
+          --emr-surface: #ffffff;
+          --emr-text: #0a1220;
+          --emr-muted: #66758a;
+          --emr-accent: #14b8a6;
+          --emr-accent-2: #2563eb;
+          --emr-border: rgba(10,18,32,.12);
+          --emr-card: linear-gradient(180deg, rgba(10,18,32,.03), rgba(10,18,32,.02));
+          --emr-shadow: 0 10px 40px rgba(10,18,32,.08);
+        }
+      }
+      .emr-modal-root { 
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        height: 100vh; 
+        display: none; 
+        z-index: 999999; 
+        overflow-y: auto; 
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+        padding: 20px 0;
+        box-sizing: border-box;
+      }
+      .emr-visible { display: block; }
+      .emr-backdrop { 
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        height: 100%; 
+        background: radial-gradient(1200px 800px at 70% -20%, rgba(124,232,197,.18), transparent 40%), radial-gradient(1000px 700px at 10% 110%, rgba(148,184,255,.22), transparent 45%), rgba(0,0,0,.45); 
+        backdrop-filter: blur(6px); 
+      }
+      .emr-dialog {
+        position: relative; 
+        margin: 0 auto 20px auto; 
+        max-width: 980px; 
+        width: calc(100% - 40px);
+        background: var(--emr-surface); 
+        color: var(--emr-text); 
+        border: 1px solid var(--emr-border);
+        border-radius: 18px; 
+        box-shadow: var(--emr-shadow); 
+        z-index: 1000000;
+        touch-action: manipulation;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      .emr-ribbon { 
+        background: linear-gradient(90deg, var(--emr-accent), var(--emr-accent-2)); 
+        color: #0a1220; 
+        font-weight: 700; 
+        letter-spacing: .2px; 
+        text-align: center; 
+        padding: 8px 12px; 
+        font-size: 14px; 
+        border-radius: 18px 18px 0 0;
+      }
+      .emr-header { display:flex; align-items:center; gap:14px; padding: 18px 18px 8px 18px; }
+      .emr-title { font-size: 22px; font-weight: 800; letter-spacing:.2px; }
+      .emr-sub { color: var(--emr-muted); font-size: 14px; }
+      .emr-spacer { flex:1; }
+      .emr-x { border:1px solid var(--emr-border); background: transparent; color: var(--emr-text); border-radius: 10px; padding: 8px 10px; cursor: pointer; font-size: 14px; }
+      .emr-tabs { display:flex; gap:10px; padding: 0 18px 6px 18px; flex-wrap: wrap; }
+      .emr-tab { border:1px solid var(--emr-border); background: var(--emr-card); color: var(--emr-text); padding:10px 14px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 14px; }
+      .emr-tab[aria-selected="true"] { outline: 2px solid var(--emr-accent); }
+      .emr-body { 
+        display:grid; 
+        grid-template-columns: 1.1fr .9fr; 
+        gap:16px; 
+        padding: 12px 18px 18px; 
+      }
+      @media (max-width: 860px) { 
+        .emr-body { grid-template-columns: 1fr; } 
+        .emr-dialog { 
+          width: calc(100% - 20px); 
+          margin: 10px auto 20px auto;
+          min-height: auto;
+          max-height: none;
+        }
+        .emr-modal-root { 
+          padding: 10px 0 40px 0; 
+          height: 100vh;
+          height: -webkit-fill-available;
+        }
+        .emr-backdrop {
+          position: fixed;
+          height: 100vh;
+          height: -webkit-fill-available;
+        }
+      }
+      .emr-hero { padding: 16px; border:1px solid var(--emr-border); border-radius: var(--emr-radius); background: var(--emr-card); }
+      .emr-hero h3 { margin:0 0 8px; font-size: 18px; }
+      .emr-hero p { margin:0 0 12px; color: var(--emr-muted); }
+      .emr-actions { display:flex; flex-wrap: wrap; gap:10px; }
+      .emr-btn { display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius: 12px; border:1px solid var(--emr-border); background: transparent; color: var(--emr-text); text-decoration:none; font-weight: 650; cursor:pointer; font-size: 14px; }
+      .emr-btn:hover { outline: 2px solid var(--emr-accent); }
+      .emr-btn svg { width:16px; height:16px; }
+      .emr-panel { display:none; flex-direction: column; gap:12px; }
+      .emr-panel[data-active="true"] { display:flex; }
+      .emr-quiz { padding: 16px; border:1px solid var(--emr-border); border-radius: var(--emr-radius); background: var(--emr-card); }
+      .emr-q-title { font-weight: 800; margin: 0 0 6px; font-size: 16px; }
+      .emr-q-row { display:grid; grid-template-columns: 1fr; gap:10px; margin-top: 8px; }
+      .emr-q-label { font-weight: 650; }
+      .emr-q-options { display:flex; flex-wrap: wrap; gap:8px; }
+      .emr-chip { appearance:none; border:1px solid var(--emr-border); padding:8px 10px; border-radius: 999px; background: transparent; color: var(--emr-text); cursor: pointer; font-size: 13px; }
+      .emr-chip[aria-pressed="true"] { outline: 2px solid var(--emr-accent-2); }
+      .emr-q-run { margin-top: 8px; }
+      .emr-result { margin-top: 10px; padding: 12px; border:1px dashed var(--emr-border); border-radius: 12px; background: rgba(124,232,197,.08); }
+      .emr-badge { display:inline-flex; align-items:center; gap:8px; font-weight: 800; padding:6px 10px; border-radius: 999px; background: linear-gradient(90deg, var(--emr-accent), var(--emr-accent-2)); color:#0a1220; }
+      .emr-small { font-size: 12px; color: var(--emr-muted); }
+      .emr-footer { padding: 12px 18px 18px; display:flex; align-items:center; gap:10px; flex-wrap: wrap; }
+      .emr-note { color: var(--emr-muted); font-size: 12px; }
+    </style>
+    
+    <div class="emr-modal-root" id="emrModalRoot" aria-hidden="true">
+      <div class="emr-backdrop" data-emr-close></div>
+      <section class="emr-dialog" role="dialog" aria-modal="true">
+        <div class="emr-ribbon">🎁 First 100 users get: Intro Course + Hands-on Guidance 「Free Teaching」</div>
+        <header class="emr-header">
+            <div>
+                <div class="emr-title">Rebuild Your Confidence</div>
+                <div class="emr-sub">Using "rhythm" as the main thread, quickly calibrate your optimal state in three major scenarios: 「Child Development / Career & Professional Energy / Tech Wellness」.</div>
+            </div>
+          <div class="emr-spacer"></div>
+          <button class="emr-x" type="button" data-emr-close>✕</button>
+        </header>
+        
+        <nav class="emr-tabs">
+          <button class="emr-tab" role="tab" aria-selected="true" aria-controls="emrPanelKids">Child Development</button>
+          <button class="emr-tab" role="tab" aria-selected="false" aria-controls="emrPanelCareer">Career/Profession Flywheel</button>
+          <button class="emr-tab" role="tab" aria-selected="false" aria-controls="emrPanelBio">Relationship</button>
+          <button class="emr-tab" role="tab" aria-selected="false" aria-controls="emrPanelRelationship">Psychosomatic Medicine</button>
+        </nav>
+        
+        <div class="emr-body">
+          <div>
+            <div class="emr-panel" id="emrPanelKids" data-active="true">
+              <div class="emr-hero">
+                <h3>Children Enter Focus Rhythm Faster, Family Becomes Healing Energy Field</h3>
+                <p>Use visual rhythm tracking and parental guidance dashboard to help children self-regulate, enhance learning ability and creativity.</p>
+                <div class="emr-actions">
+                  <a class="emr-btn" href="https://www.jackjec.com" target="_blank">Get Child Rhythm Tracker (Notion)</a>
+                  <a class="emr-btn" href="mailto:aiaging001@gmail.com?subject=Book 1v1 Child Rhythm" target="_blank">Book 1v1 Family Rhythm Coach</a>
+                </div>
+              </div>
+              
+              <div class="emr-hero" style="margin-top: 16px;">
+                <h3>6-Step Training Method: From Meaning to Action</h3>
+                <p class="emr-small" style="margin-bottom: 12px;">Based on neuroscience, immediately actionable for parents</p>
+                <div style="overflow-x: auto;">
+                  <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                    <thead>
+                      <tr style="background: rgba(124,232,197,.15);">
+                        <th style="padding: 8px; border: 1px solid var(--emr-border); text-align: left; min-width: 120px;">Stage</th>
+                        <th style="padding: 8px; border: 1px solid var(--emr-border); text-align: left; min-width: 150px;">Key Brain Regions</th>
+                        <th style="padding: 8px; border: 1px solid var(--emr-border); text-align: left; min-width: 250px;">Training Methods</th>
+                        <th style="padding: 8px; border: 1px solid var(--emr-border); text-align: left; min-width: 200px;">EMR Assessment</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">1. Meaning<br><span style="font-weight: 400; font-size: 11px;">Why persist?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">DMN<br>mPFC</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① What's the most important thing this week to reach this year's goal?</strong><br>
+                          <strong>② What's the baseline meaning of this task?</strong><br>
+                          <strong>③ Can we amplify meaning 10× (1pt) / 100× (2pts) / 1000× (3pts)?</strong><br>
+                          <strong>④ How long did it take to think of 10×/100× meaning?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Meaning-Driven EMR</strong><br>
+                          (Meaning clarity × Meaning amplification speed)
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">2. Prediction<br><span style="font-weight: 400; font-size: 11px;">Can imagine future?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">PFC<br>Hippocampus</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① How to measure this "10× better meaning"?</strong><br>
+                          (Value/Risk/Time/Energy/Probability)<br>
+                          <strong>② How to make value 10× / 100× / 1000×?</strong><br>
+                          <strong>③ How long to think of higher-level value?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Future Confidence EMR</strong><br>
+                          (Future controllability × Thinking speed)
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">3. Reward<br><span style="font-weight: 400; font-size: 11px;">Motivated for future?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">VTA<br>NAc<br>Endorphin system</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① What does 10× meaning feel like in the body?</strong><br>
+                          <strong>② How to make this feeling 10× / 100× / 1000×?</strong><br>
+                          <strong>③ How long to feel this "satisfaction in waiting"?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Reward Prediction EMR</strong><br>
+                          (Body reward sensation × Endorphin response speed)
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">4. Motivation<br><span style="font-weight: 400; font-size: 11px;">No more procrastination?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">NAc (motivation allocator)</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① What growth budget will child invest for 10× meaning?</strong><br>
+                          <strong>② How to make budget 10× / 100× / 1000×?</strong><br>
+                          <strong>③ How long to propose "better budget"?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Motivation Consistency EMR</strong><br>
+                          (Motivation budget × Generation speed)
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">5. Action<br><span style="font-weight: 400; font-size: 11px;">Act faster?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">Motor cortex<br>DLPFC</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① What's today's 10× action?</strong><br>
+                          <strong>② How to make action effect 10× / 100× / 1000×?</strong><br>
+                          <strong>③ How long from "thinking" to "doing"?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Action Acceleration EMR</strong><br>
+                          (Startup speed × Action power density)
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">6. More Meaning<br><span style="font-weight: 400; font-size: 11px;">Want to do more?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">DMN × Hippocampus</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① What's the biggest growth gain achieved?</strong><br>
+                          <strong>② How to make gain 10× / 100× / 1000×?</strong><br>
+                          <strong>③ How long to see new "meaning well"?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Meaning Well EMR</strong><br>
+                          (Growth well depth × Meaning sedimentation speed)
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="emr-quiz" data-emr-quiz data-scene="kids">
+                <div class="emr-q-title">30-Second Rhythm Micro-Test</div>
+                <p class="emr-small">Answer 3 questions, get instant daily rhythm advice (child scenario).</p>
+                <div class="emr-q-row">
+                  <div><div class="emr-q-label">Last Night's Sleep Quality</div><div class="emr-q-options" data-q="sleep"></div></div>
+                  <div><div class="emr-q-label">Current Energy Level</div><div class="emr-q-options" data-q="energy"></div></div>
+                  <div><div class="emr-q-label">Tension/Anxiety Level</div><div class="emr-q-options" data-q="stress"></div></div>
+                </div>
+                <div class="emr-q-run"><button class="emr-btn" type="button" data-run-quiz>Assess Now</button></div>
+                <div class="emr-result" hidden>
+                  <div class="emr-badge" data-result-badge>Rhythm State: —</div>
+                  <div class="emr-small" data-result-text>—</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="emr-panel" id="emrPanelCareer">
+              <div class="emr-hero">
+                <h3>Maintain Stable Output Under Pressure Curves, Make Rhythm Your "Compound Interest Moat"</h3>
+                <p>Use 90-second workday rhythm calibration to optimize commute, meetings, focus, and recovery periods.</p>
+                <div class="emr-actions">
+                  <a class="emr-btn" href="mailto:aiaging001@gmail.com?subject=Book 1v1 Professional Energy" target="_blank">Book 1v1 Professional Rhythm Calibration</a>
+                </div>
+              </div>
+              
+              <div class="emr-hero" style="margin-top: 16px;">
+                <h3>6-Step Career Energy Method: From Purpose to Flow</h3>
+                <p class="emr-small" style="margin-bottom: 12px;">Immediately applicable workplace strategies based on brain science</p>
+                <div style="overflow-x: auto;">
+                  <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                    <thead>
+                      <tr style="background: rgba(124,232,197,.15);">
+                        <th style="padding: 8px; border: 1px solid var(--emr-border); text-align: left; min-width: 120px;">Stage</th>
+                        <th style="padding: 8px; border: 1px solid var(--emr-border); text-align: left; min-width: 150px;">Key Brain Regions</th>
+                        <th style="padding: 8px; border: 1px solid var(--emr-border); text-align: left; min-width: 280px;">Training Methods</th>
+                        <th style="padding: 8px; border: 1px solid var(--emr-border); text-align: left; min-width: 200px;">EMR Assessment</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">1. Meaning<br><span style="font-weight: 400; font-size: 11px;">Why do this work?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">DMN<br>mPFC</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① What's the most important thing this week to reach this year's work goal?</strong><br>
+                          <strong>② What's the baseline meaning of this task?</strong><br>
+                          <strong>③ Can we amplify meaning 10× / 100× / 1000×?</strong><br>
+                          <strong>④ How long did it take to think of 10×/100× meaning?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Meaning-Driven EMR</strong><br>
+                          (Meaning clarity × Speed)
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">2. Prediction<br><span style="font-weight: 400; font-size: 11px;">Does work create future?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">PFC (strategy brain)</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① How to measure 10× meaning value (value/risk/time/energy/probability)?</strong><br>
+                          <strong>② How to make value 10× / 100× / 1000×?</strong><br>
+                          <strong>③ How long to think of it?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Future Confidence EMR</strong><br>
+                          (Future map × Prediction speed)
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">3. Reward<br><span style="font-weight: 400; font-size: 11px;">Where's work fulfillment?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">VTA<br>NAc</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① What does 10× work meaning feel like in the body?</strong><br>
+                          <strong>② How to make this pleasure/excitement/stability feel 10×?</strong><br>
+                          <strong>③ How long to experience it?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Reward Prediction EMR</strong><br>
+                          (Reward body sensation × Speed)
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">4. Motivation<br><span style="font-weight: 400; font-size: 11px;">Sustain drive?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">NAc</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① How much budget (time/energy/resources) will I invest for 10× work meaning?</strong><br>
+                          <strong>② How to make budget 10× / 100× / 1000×?</strong><br>
+                          <strong>③ How long to propose better budget?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Motivation Consistency EMR</strong>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">5. Action<br><span style="font-weight: 400; font-size: 11px;">Enter deep work?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">DLPFC<br>Motor cortex</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① What's my 10× action today?</strong><br>
+                          <strong>② How to make action results 10× / 100× / 1000×?</strong><br>
+                          <strong>③ How long to think of "best action plan"?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Action Acceleration EMR</strong>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">6. More Meaning<br><span style="font-weight: 400; font-size: 11px;">Work flywheel effect?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">DMN × Hippocampus</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① What's the biggest career gain achieved?</strong><br>
+                          <strong>② How to make gain 10× / 100× / 1000×?</strong><br>
+                          <strong>③ How long to generate new "career meaning well"?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Meaning Well EMR</strong>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="emr-quiz" data-emr-quiz data-scene="career">
+                <div class="emr-q-title">30-Second Rhythm Micro-Test</div>
+                <div class="emr-q-row">
+                  <div><div class="emr-q-label">昨晚睡眠感受</div><div class="emr-q-options" data-q="sleep"></div></div>
+                  <div><div class="emr-q-label">当前精力值</div><div class="emr-q-options" data-q="energy"></div></div>
+                  <div><div class="emr-q-label">紧张/压力程度</div><div class="emr-q-options" data-q="stress"></div></div>
+                </div>
+                <div class="emr-q-run"><button class="emr-btn" type="button" data-run-quiz>Get Advice</button></div>
+                <div class="emr-result" hidden>
+                  <div class="emr-badge" data-result-badge>节律状态：—</div>
+                  <div class="emr-small" data-result-text>—</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="emr-panel" id="emrPanelBio">
+              <div class="emr-hero">
+                <h3>Build Your Social Value Field</h3>
+                <p>Through "Physiological-Neural-Rhythm" three-layer feedback in relationships, create authentic connections and lasting influence.</p>
+                <div class="emr-actions">
+                  <a class="emr-btn" href="mailto:aiaging001@gmail.com?subject=Consult Relationship Energy" target="_blank">Consult Relationship Integration</a>
+                </div>
+              </div>
+              
+              <div class="emr-hero" style="margin-top: 16px;">
+                <h3>6-Step Relationship Method: Building Your Social Value Field</h3>
+                <p class="emr-small" style="margin-bottom: 12px;">Neuroscience-based relationship strategies for immediate application</p>
+                <div style="overflow-x: auto;">
+                  <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                    <thead>
+                      <tr style="background: rgba(124,232,197,.15);">
+                        <th style="padding: 8px; border: 1px solid var(--emr-border); text-align: left; min-width: 120px;">Stage</th>
+                        <th style="padding: 8px; border: 1px solid var(--emr-border); text-align: left; min-width: 140px;">Key Brain Regions</th>
+                        <th style="padding: 8px; border: 1px solid var(--emr-border); text-align: left; min-width: 300px;">Training Methods</th>
+                        <th style="padding: 8px; border: 1px solid var(--emr-border); text-align: left; min-width: 200px;">EMR Assessment</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">1. Meaning<br><span style="font-weight: 400; font-size: 11px;">Why connect with you?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">DMN<br>mPFC</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① What's the most important relationship/collaboration this week?</strong><br>
+                          <strong>② What's its baseline meaning?</strong><br>
+                          <strong>③ Can we amplify meaning 10× / 100× / 1000×?</strong><br>
+                          <strong>④ How long to think of it?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Meaning-Driven EMR</strong>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">2. Prediction<br><span style="font-weight: 400; font-size: 11px;">Can others predict your future value?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">PFC (social prediction)</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① How to measure 10× relationship value (value/risk/time/probability)?</strong><br>
+                          <strong>② How to make value 10× / 100× / 1000×?</strong><br>
+                          <strong>③ How long to think of it?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Future Confidence EMR</strong>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">3. Reward<br><span style="font-weight: 400; font-size: 11px;">Can you make others feel better instantly?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">VTA<br>Insula<br>NAc</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① What does this 10× relationship meaning feel like in the body?</strong><br>
+                          <strong>② How to make this feeling 10× / 100× / 1000×?</strong><br>
+                          <strong>③ How long to experience it?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Reward Prediction EMR</strong>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">4. Motivation<br><span style="font-weight: 400; font-size: 11px;">Why continue connecting?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">NAc</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① How much budget (time/energy/value output) will I invest for this relationship?</strong><br>
+                          <strong>② How to make budget 10× / 100× / 1000×?</strong><br>
+                          <strong>③ How long to think of it?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Motivation Consistency EMR</strong>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">5. Action<br><span style="font-weight: 400; font-size: 11px;">Do you deliver on promises?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">DLPFC</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① What's my 10× action I can give to the relationship today?</strong><br>
+                          <strong>② How to make action 10× / 100× / 1000×?</strong><br>
+                          <strong>③ How long to think of it?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Action Acceleration EMR</strong>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">6. More Meaning<br><span style="font-weight: 400; font-size: 11px;">Long-term relationship asset?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">DMN × Hippocampus</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① What's the biggest gain this relationship brings me?</strong><br>
+                          <strong>② How to make gain 10× / 100× / 1000×?</strong><br>
+                          <strong>③ How long to generate new "relationship well"?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Meaning Well EMR</strong>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="emr-quiz" data-emr-quiz data-scene="bio">
+                <div class="emr-q-title">30-Second Rhythm Micro-Test</div>
+                <div class="emr-q-row">
+                  <div><div class="emr-q-label">昨晚睡眠感受</div><div class="emr-q-options" data-q="sleep"></div></div>
+                  <div><div class="emr-q-label">当前精力值</div><div class="emr-q-options" data-q="energy"></div></div>
+                  <div><div class="emr-q-label">紧张/压力程度</div><div class="emr-q-options" data-q="stress"></div></div>
+                </div>
+                <div class="emr-q-run"><button class="emr-btn" type="button" data-run-quiz>Generate Advice</button></div>
+                <div class="emr-result" hidden>
+                  <div class="emr-badge" data-result-badge>节律状态：—</div>
+                  <div class="emr-small" data-result-text>—</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="emr-panel" id="emrPanelRelationship">
+            <div class="emr-hero">
+              <h3>Embrace Ease with Data: HRV × Sleep × Sun Exposure × Steps</h3>
+              <p>Through "Physiological-Neural-Rhythm" three-layer feedback, reduce prediction errors, decrease energy consumption, return to going with the flow.</p>
+              <div class="emr-actions">
+                <a class="emr-btn" href="mailto:aiaging001@gmail.com?subject=Consult Tech Wellness Connection" target="_blank">Consult Data Integration (Apple/Google)</a>
+              </div>
+            </div>
+            
+            <div class="emr-hero" style="margin-top: 16px;">
+                <h3>6-Step Psychosomatic Medicine Method: Body-Mind Integration & Self-Healing</h3>
+                <p class="emr-small" style="margin-bottom: 12px;">Science-based body-mind recovery strategies for immediate application</p>
+              <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                  <thead>
+                    <tr style="background: rgba(124,232,197,.15);">
+                      <th style="padding: 8px; border: 1px solid var(--emr-border); text-align: left; min-width: 120px;">Stage</th>
+                      <th style="padding: 8px; border: 1px solid var(--emr-border); text-align: left; min-width: 150px;">Key Brain/Body Systems</th>
+                      <th style="padding: 8px; border: 1px solid var(--emr-border); text-align: left; min-width: 280px;">Training Methods</th>
+                      <th style="padding: 8px; border: 1px solid var(--emr-border); text-align: left; min-width: 200px;">EMR Assessment</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">1. Meaning<br><span style="font-weight: 400; font-size: 11px;">Why does body self-heal or collapse?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">DMN<br>mPFC<br>Vagus nerve</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① What's the most important healing goal this week?</strong><br>
+                          <strong>② What's its baseline meaning?</strong><br>
+                          <strong>③ Can we amplify meaning 10× / 100× / 1000×?</strong><br>
+                          <strong>④ How long to think of it?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Meaning-Driven EMR</strong>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">2. Prediction<br><span style="font-weight: 400; font-size: 11px;">Why does body feel anxious, pain, overstressed?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">PFC<br>Amygdala</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① How to measure 10× health meaning value?</strong><br>
+                          <strong>② How to make controllability 10× / 100× / 1000×?</strong><br>
+                          <strong>③ How long to think of it?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Future Confidence EMR</strong>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">3. Reward<br><span style="font-weight: 400; font-size: 11px;">Why does body lose motivation or chronic exhaustion?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">VTA<br>NAc<br>Endorphin system</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① What does 10× health meaning feel like in the body?</strong><br>
+                          <strong>② How to make this healing sensation 10× / 100× / 1000×?</strong><br>
+                          <strong>③ How long to feel it?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Reward Prediction EMR</strong>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">4. Motivation<br><span style="font-weight: 400; font-size: 11px;">Why don't I repair even when I know I should?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">NAc<br>Vagus nerve</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① How much budget will I invest for healing?</strong><br>
+                          <strong>② How to make the healing plan 10× / 100× / 1000×?</strong><br>
+                          <strong>③ How long to think of it?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Motivation Consistency EMR</strong>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">5. Action<br><span style="font-weight: 400; font-size: 11px;">How to make body willing to start repair?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">Parasympathetic system<br>Motor cortex</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① What's my 10× healing action today?</strong><br>
+                          <strong>② How to make healing effect 10× / 100× / 1000×?</strong><br>
+                          <strong>③ How long to think of it?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Action Acceleration EMR</strong>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border); font-weight: 650;">6. More Meaning<br><span style="font-weight: 400; font-size: 11px;">How to achieve long-term body-mind stability?</span></td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">DMN × Hippocampus</td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>① What's the biggest healing gain today?</strong><br>
+                          <strong>② How to make gain 10× / 100× / 1000×?</strong><br>
+                          <strong>③ How long to see "self-healing well"?</strong>
+                        </td>
+                        <td style="padding: 8px; border: 1px solid var(--emr-border);">
+                          <strong>Meaning Well EMR</strong>
+                        </td>
+                      </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="emr-quiz" data-emr-quiz data-scene="relationship">
+              <div class="emr-q-title">30-Second Rhythm Micro-Test</div>
+              <div class="emr-q-row">
+                <div><div class="emr-q-label">Recent Social Energy</div><div class="emr-q-options" data-q="sleep"></div></div>
+                <div><div class="emr-q-label">Connection Quality</div><div class="emr-q-options" data-q="energy"></div></div>
+                <div><div class="emr-q-label">Relationship Stress</div><div class="emr-q-options" data-q="stress"></div></div>
+              </div>
+              <div class="emr-q-run"><button class="emr-btn" type="button" data-run-quiz>Get Advice</button></div>
+              <div class="emr-result" hidden>
+                <div class="emr-badge" data-result-badge>Relationship State: —</div>
+                <div class="emr-small" data-result-text>—</div>
+              </div>
+            </div>
+          </div>
+          
+          <aside>
+            <div class="emr-hero">
+              <h3>EMR Rhythm Healing: Not Meditation, Not Motivation, Not Counseling</h3>
+              <p>It's a predictable training model of "Physiological-Neural-Rhythm": Track → Calibrate → Strengthen → Compound, training emotional rhythm like athletes train heart rate rhythm.</p>
+              <div class="emr-actions">
+                <a class="emr-btn" href="https://www.jackjec.com" target="_blank">Learn About EMR (Official Site)</a>
+                <a class="emr-btn" href="mailto:aiaging001@gmail.com?subject=Partnership Inquiry EMR Ecosystem" target="_blank">Partnership & Ecosystem Inquiry</a>
+              </div>
+            </div>
+          </aside>
+        </div>
+        
+        <footer class="emr-footer">
+          <div class="emr-note">Disclaimer: This content is for health education and behavioral training information, not a substitute for medical diagnosis or treatment. For health issues, please consult professional doctors.</div>
+        </footer>
+      </section>
+    </div>
+    
+    <script>
+    (function(){
+      const root = document.getElementById('emrModalRoot');
+      const dialog = root?.querySelector('.emr-dialog');
+      
+      function openModal(){
+        // Prevent body scroll on mobile
+        document.body.style.overflow = 'hidden';
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${window.scrollY}px`;
+        document.body.style.width = '100%';
+        
+        root.classList.add('emr-visible');
+        root.setAttribute('aria-hidden','false');
+        dialog.querySelectorAll('.emr-q-options').forEach(optWrap=>{
+          if(optWrap.childElementCount===0){
+            for(let i=1;i<=5;i++){
+              const b=document.createElement('button');
+              b.className='emr-chip'; b.type='button'; b.textContent=String(i);
+              b.addEventListener('click', ()=>{
+                [...optWrap.children].forEach(x=>x.setAttribute('aria-pressed','false'));
+                b.setAttribute('aria-pressed','true'); b.dataset.value=String(i);
+              });
+              optWrap.appendChild(b);
+            }
+          }
+        });
+      }
+      
+      function closeModal(){
+        // Restore body scroll
+        const scrollY = document.body.style.top;
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+        
+        root.classList.remove('emr-visible');
+        root.setAttribute('aria-hidden','true');
+      }
+      
+      root.addEventListener('click', (e)=>{
+        if(e.target.hasAttribute('data-emr-close')) closeModal();
+      });
+      
+      const tabs = dialog.querySelectorAll('.emr-tab');
+      const panels = dialog.querySelectorAll('.emr-panel');
+      tabs.forEach(tab=>{
+        tab.addEventListener('click', ()=>{
+          tabs.forEach(t=>t.setAttribute('aria-selected','false'));
+          tab.setAttribute('aria-selected','true');
+          const target = tab.getAttribute('aria-controls');
+          panels.forEach(p=>p.dataset.active = (p.id===target) ? 'true' : 'false');
+        });
+      });
+      
+      window.EMRPanel = { open: openModal, close: closeModal };
+    })();
+    </script>
+</body>
+</html>
